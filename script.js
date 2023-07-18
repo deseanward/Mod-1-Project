@@ -1,22 +1,22 @@
 class Game {
 	constructor() {
 		let numOfPlayers = 2;
-		const player1 = new Player('De Sean')
-		const player2 = new Player()
+		const player1 = new Player('De Sean');
+		const player2 = new Player();
 	}
-    
+
 	createGame() {
-        const gameArea = document.querySelector('#gameArea');
+		const gameArea = document.querySelector('#gameArea');
 		const p1Score = document.querySelector('#p1Score');
 		const p2Score = document.querySelector('#p2Score');
-        const message = document.querySelector('#message')
-        
-        let player1won = 1;
-        let player2won = 0;
+		const message = document.querySelector('#message');
+
+		let player1won = 1;
+		let player2won = 0;
 
 		p1Score.textContent = player1won;
 		p2Score.textContent = player2won;
-		message.textContent = 'In-game messages goes here...'
+		message.textContent = 'In-game messages goes here...';
 
 		const blocks = ['', '', '', '', '', '', '', '', ''];
 
@@ -25,6 +25,8 @@ class Game {
 				const block = document.createElement('div');
 
 				block.classList.add('square');
+				block.classList.add('symbX');
+				block.classList.add('symbO');
 				block.id = idx + 1;
 
 				if (idx === 0 || idx === 1 || idx === 2)
@@ -46,11 +48,10 @@ class Game {
 	}
 }
 
-
 class Player {
-    constructor(name) {
-        this.name = name
-    }
+	constructor(name) {
+		this.name = name;
+	}
 }
 
 // Create and start the game

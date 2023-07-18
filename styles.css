@@ -10,7 +10,7 @@
     --block-size: 200px;
 
     /* The X/O size - 90% of the block size */
-    --symbol-size: calc(var(--block-size) * .9)
+    --symb-size: calc(var(--block-size) * .9)
 }
 
 body {
@@ -58,7 +58,50 @@ p, span, h1, h2 {
     width: var(--block-size);
     height: var(--block-size);
     border: 1px solid black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
+
+/**/
+/***** 'X' symbol ******/
+.square.symbX::before,
+.square.symbX::after {
+    content: '';
+    position: absolute;
+    width: calc(var(--symb-size) * .15);
+    height: var(--symb-size);
+    background-color: red;
+}
+
+.square.symbX::before {
+    transform: rotate(45deg);
+}
+
+.square.symbX::after {
+    transform: rotate(-45deg);
+}
+/***********************/
+/**/
+
+/**/
+/***** 'O' symbol ******/
+.square.symbO::before,
+.square.symbO::after {
+    content: '';
+    position: absolute;
+    width: calc(var(--symb-size));
+    height: var(--symb-size);
+    background-color: black;
+    border-radius: 50%;
+}
+
+.square.symbO::after {
+    scale: .7;
+    background-color: white;
+}
+/***********************/
+/**/
 
 #gameStats {
     display: flex;
