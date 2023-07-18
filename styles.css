@@ -1,0 +1,78 @@
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --block-size: 200px;
+
+    /* The X/O size - 90% of the block size */
+    --symbol-size: calc(var(--block-size) * .9)
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+p, span, h1, h2 {
+    margin-bottom: 0.25em;
+}
+
+#mainContainer {
+    width: 70%;
+    height: 100%;
+}
+
+#header {
+    text-align: center;
+    padding: 1em 0;
+}
+
+/* The entire board and info area */
+#gameBoard {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    height: fit-content;
+    /* background-color: grey */
+}
+
+#gameArea {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    width: 600px;
+    height: 600px;
+}
+
+.square {
+    width: var(--block-size);
+    height: var(--block-size);
+    border: 1px solid black;
+}
+
+#gameStats {
+    display: flex;
+    flex-direction: column;
+    width: 25%;
+    height: fit-content;
+    padding: 1em;
+    border-left: 1px solid;
+} 
+
+#message {
+    text-align: center;
+    margin: 1em;
+}
+
+
+
