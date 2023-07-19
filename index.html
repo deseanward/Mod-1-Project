@@ -14,10 +14,11 @@
 		<!-- Main Container -->
 		<div id="mainContainer">
 			<!-- Header -->
-			<header id="header"><h1>Tic Tac Toe</h1>
-            
-            <hr />
-            </header>
+			<header id="header">
+				<h1>Tic Tac Toe</h1>
+
+				<hr />
+			</header>
 
 			<!-- Main Content -->
 			<div id="gameBoard">
@@ -27,13 +28,24 @@
 				<!-- Info Area -->
 				<section id="gameStats">
 					<h2>Game Stats</h2>
-					<p id="player1">Player 1: <span id="p1Score">23</span></p>
-					<p id="player2">Player 2: <span id="p2Score" /></p>
+					<p>
+						<span id="p1Player"> </span>
+						<span id="p1Score" />
+					</p>
+					<p>
+						<span id="p2Player"></span>
+						<span id="p2Score" />
+					</p>
 				</section>
 			</div>
 
 			<!-- Game Message -->
-			<div id="gameMessage"><h2 id="message" /></div>
+			<div id="gameMessage">
+				<h2 id="message">
+					Next Up:
+					<span id="nextPlayer" />
+				</h2>
+			</div>
 		</div>
 	</body>
 </html>

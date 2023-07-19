@@ -10,7 +10,10 @@
     --block-size: 200px;
 
     /* The X/O size - 90% of the block size */
-    --symb-size: calc(var(--block-size) * .9)
+    --symb-size: calc(var(--block-size) * .9);
+    
+    /* The X/O block selector color */
+    --block-selector: rgb(218, 218, 218);
 }
 
 body {
@@ -33,9 +36,10 @@ p, span, h1, h2 {
 #header {
     text-align: center;
     padding: 1em 0;
+    margin-bottom: 4em;
 }
 
-/* The entire board and info area */
+/* The entire game area and info area */
 #gameBoard {
     display: flex;
     justify-content: space-around;
@@ -61,12 +65,21 @@ p, span, h1, h2 {
     display: flex;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
 }
 
-/**/
+/******* 'X' and 'O' Symbols ********/
+.square.symbX,
+.square.symbO {
+    cursor: not-allowed;
+}
+
+
 /***** 'X' symbol ******/
 .square.symbX::before,
-.square.symbX::after {
+.square.symbX::after,
+#gameArea.symbX .square:not(.symbX):not(.symbO):hover::before,
+#gameArea.symbX .square:not(.symbX):not(.symbO):hover::after {
     content: '';
     position: absolute;
     width: calc(var(--symb-size) * .15);
@@ -74,20 +87,27 @@ p, span, h1, h2 {
     background-color: red;
 }
 
-.square.symbX::before {
+
+/* Rotation to form 'X' */
+.square.symbX::before,
+#gameArea.symbX .square:hover::before {
     transform: rotate(45deg);
 }
 
-.square.symbX::after {
+
+/* Rotation to form 'X' */
+.square.symbX::after,
+#gameArea.symbX .square:hover::after {
     transform: rotate(-45deg);
 }
-/***********************/
-/**/
+/***************************/
 
-/**/
+
 /***** 'O' symbol ******/
 .square.symbO::before,
-.square.symbO::after {
+.square.symbO::after,
+#gameArea.symbO .square:not(.symbO):not(.symbX):hover::before,
+#gameArea.symbO .square:not(.symbO):not(.symbX):hover::after {
     content: '';
     position: absolute;
     width: calc(var(--symb-size));
@@ -96,9 +116,18 @@ p, span, h1, h2 {
     border-radius: 50%;
 }
 
-.square.symbO::after {
+.square.symbO::after,
+#gameArea.symbO .square:not(.symbO):not(.symbX):hover::after {
     scale: .7;
     background-color: white;
+}
+/***********************/
+
+/* X/O symbol block selector highlight */
+#gameArea.symbX .square:not(.symbX):not(.symbO):hover::before,
+#gameArea.symbX .square:not(.symbX):not(.symbO):hover::after,
+#gameArea.symbO .square:not(.symbO):not(.symbX):hover::before {
+    background-color: var(--block-selector);
 }
 /***********************/
 /**/
@@ -112,9 +141,9 @@ p, span, h1, h2 {
     border-left: 1px solid;
 } 
 
-#message {
+#gameMessage {
     text-align: center;
-    margin: 1em;
+    margin-top: 4em;
 }
 
 
