@@ -28,7 +28,7 @@ p, span, h1, h2 {
     margin-bottom: 0.25em;
 }
 
-#mainContainer {
+#main-container {
     width: 70%;
     height: 100%;
 }
@@ -40,7 +40,7 @@ p, span, h1, h2 {
 }
 
 /* The entire game area and info area */
-#gameBoard {
+#game-board {
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -49,7 +49,7 @@ p, span, h1, h2 {
     /* background-color: grey */
 }
 
-#gameArea {
+#game-area {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -68,18 +68,18 @@ p, span, h1, h2 {
     cursor: pointer;
 }
 
-/******* 'X' and 'O' Symbols ********/
-.square.symbX,
-.square.symbO {
+/******* 'X' and 'O' symb-ols ********/
+.square.symb-x,
+.square.symb-o {
     cursor: not-allowed;
 }
 
 
-/***** 'X' symbol ******/
-.square.symbX::before,
-.square.symbX::after,
-#gameArea.symbX .square:not(.symbX):not(.symbO):hover::before,
-#gameArea.symbX .square:not(.symbX):not(.symbO):hover::after {
+/***** 'X' symb-ol ******/
+.square.symb-x::before,
+.square.symb-x::after,
+#game-area.symb-x .square:not(.symb-x):not(.symb-o):hover::before,
+#game-area.symb-x .square:not(.symb-x):not(.symb-o):hover::after {
     content: '';
     position: absolute;
     width: calc(var(--symb-size) * .15);
@@ -89,25 +89,25 @@ p, span, h1, h2 {
 
 
 /* Rotation to form 'X' */
-.square.symbX::before,
-#gameArea.symbX .square:hover::before {
+.square.symb-x::before,
+#game-area.symb-x .square:hover::before {
     transform: rotate(45deg);
 }
 
 
 /* Rotation to form 'X' */
-.square.symbX::after,
-#gameArea.symbX .square:hover::after {
+.square.symb-x::after,
+#game-area.symb-x .square:hover::after {
     transform: rotate(-45deg);
 }
 /***************************/
 
 
-/***** 'O' symbol ******/
-.square.symbO::before,
-.square.symbO::after,
-#gameArea.symbO .square:not(.symbO):not(.symbX):hover::before,
-#gameArea.symbO .square:not(.symbO):not(.symbX):hover::after {
+/***** 'O' symb-ol ******/
+.square.symb-o::before,
+.square.symb-o::after,
+#game-area.symb-o .square:not(.symb-o):not(.symb-x):hover::before,
+#game-area.symb-o .square:not(.symb-o):not(.symb-x):hover::after {
     content: '';
     position: absolute;
     width: calc(var(--symb-size));
@@ -116,23 +116,23 @@ p, span, h1, h2 {
     border-radius: 50%;
 }
 
-.square.symbO::after,
-#gameArea.symbO .square:not(.symbO):not(.symbX):hover::after {
+.square.symb-o::after,
+#game-area.symb-o .square:not(.symb-o):not(.symb-x):hover::after {
     scale: .7;
     background-color: white;
 }
 /***********************/
 
-/* X/O symbol block selector highlight */
-#gameArea.symbX .square:not(.symbX):not(.symbO):hover::before,
-#gameArea.symbX .square:not(.symbX):not(.symbO):hover::after,
-#gameArea.symbO .square:not(.symbO):not(.symbX):hover::before {
+/* X/O symb-ol block selector highlight */
+#game-area.symb-x .square:not(.symb-x):not(.symb-o):hover::before,
+#game-area.symb-x .square:not(.symb-x):not(.symb-o):hover::after,
+#game-area.symb-o .square:not(.symb-o):not(.symb-x):hover::before {
     background-color: var(--block-selector);
 }
 /***********************/
 /**/
 
-#gameStats {
+#game-stats {
     display: flex;
     flex-direction: column;
     width: 25%;
@@ -141,7 +141,13 @@ p, span, h1, h2 {
     border-left: 1px solid;
 } 
 
-#gameMessage {
+#reset-btn {
+    padding: .5em;
+    cursor: pointer;
+    margin-top: 2em;
+}
+
+#game-message {
     text-align: center;
     margin-top: 4em;
 }
