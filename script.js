@@ -1,3 +1,4 @@
+//* Main Game Class
 class Game {
 	constructor() {
 		this.numOfPlayers = 0;
@@ -45,7 +46,7 @@ class Game {
 		}
 
 		alert(
-			`Game on! \nIt's ${player1.name} ( '${player1.symbol}' ) vs ${player2.name} ( '${player2.symbol}' )`
+			`Game on! \n"${player1.name} ( '${player1.symbol}' )" vs "${player2.name} ( '${player2.symbol}' )"`
 		);
 
 		let currentPlayer = player1;
@@ -59,13 +60,19 @@ class Game {
 		p2Score.textContent = `${player2.won}`;
 
 		// Status Message
-		nextPlayer.textContent = `${currentPlayer.name}`;
+		message.textContent = `${currentPlayer.name} ( '${currentPlayer.symbol}' ), your turn.`;
 
-		// Handling of the block's click evenet
+		//* Handling of the block's click evenet
 		const handleBlockClick = e => {
-			e.preventDefault();
+			let block;
 
-			const block = e.target;
+			if (e.target) {
+				e.preventDefault();
+
+				block = e.target;
+			} else {
+				block = e;
+			}
 
 			// Checks for the current player and places the appropriate symbol
 			currentPlayer === player1
@@ -73,12 +80,17 @@ class Game {
 				: (currentClass = 'symb-o');
 
 			block.classList.add(currentClass);
+			console.log(block);
 
-			// Check for winner
+			// Call to check for winner
 			if (checkIfWon(currentClass)) {
 				message.textContent = `${currentPlayer.name} Wins!`;
 
 				currentPlayer.won++;
+
+				// Disable further block clicking
+				const allBlocks = document.querySelectorAll('.square');
+				allBlocks.forEach(block => block.style.pointerEvents = "none")
 
 				switch (currentPlayer) {
 					case player1:
@@ -97,7 +109,7 @@ class Game {
 		};
 
 		//
-		// Handling of the reset button's click event
+		//* Handling of the reset button's click event *//
 		const handleResetBtn = e => {
 			e.preventDefault();
 
@@ -118,25 +130,64 @@ class Game {
 				o.classList.remove('symb-o');
 			});
 
-			//
+			console.clear()
 			currentPlayer = player1;
 			gameArea.classList.add('symb-x');
 			message.textContent = `${currentPlayer.name}, your turn.`;
 			createBoard();
 		};
 
-		// Check for winner
-		function checkIfWon(currentClass) {
+		//* The 'Player 2' logic for the computer, if it's a one-player game *//
+		function useComputerLogic() {
+			// House the index of the blocks with no class of 'x' or 'o'
+			const remainingBlocks = [];
+
+			// Cache all of the blocks
 			const allBlocks = document.querySelectorAll('.square');
 
+			// Detemine what blocks do not have an associated class, and push to 'remainingBlocks'
+			allBlocks.forEach(block => {
+				if (
+					!block.classList.contains('symb-x') &&
+					!block.classList.contains('symb-o')
+				) {
+					// Push the index ('id' value - 1) to remainingBlocks
+					remainingBlocks.push(block.id - 1);
+				}
+			});
+
+			console.log('Remaining Blocks: ', remainingBlocks);
+			// Random index selctor or the 'remainingBlocks'
+			const decision = Math.floor(Math.random() * remainingBlocks.length);
+			console.log('Decision: ', decision);
+
+			// The random index value of 'remainingBlocks' to check
+			const idx = remainingBlocks[decision];
+			console.log('IDX: ', idx);
+
+			!allBlocks[idx].classList.contains('symb-x') &&
+			!allBlocks[idx].classList.contains('symb-o')
+				? handleBlockClick(allBlocks[idx])
+				: console.log('Duplicate block picked: ', allBlocks[idx]);
+		}
+
+		//* Check for winner *//
+		function checkIfWon(currentClass) {
+			// Collects all block elements
+			const allBlocks = document.querySelectorAll('.square');
+
+			// 'Cycles through every 'combo' within the 'winningCombos' array
+			// returning any ('.some') winning 'combo' array (which holds the values of 'allBlocks' indexes)
 			return winningCombos.some(combo => {
+				// Returns to 'winningCombos', the 'combo' array if '.every' value
+				// is the index ('idx') of 'allBlocks' containing the class of 'currentClass'
 				return combo.every(idx => {
 					return allBlocks[idx].classList.contains(currentClass);
 				});
 			});
 		}
 
-		// Switch the current player
+		// Switch the current player on turn exchange
 		function switchPlayers(player1, player2) {
 			// Remove the current class associated with the current player
 			gameArea.classList.remove(currentClass);
@@ -154,10 +205,12 @@ class Game {
 			gameArea.classList.add(currentClass);
 
 			// Update Next Up message
-			message.textContent = `${currentPlayer.name}, your turn.`;
+			message.textContent = `${currentPlayer.name} ( '${currentPlayer.symbol}' ), your turn.`;
+
+			if (currentPlayer.name === 'Mr. Computer') useComputerLogic();
 		}
 
-		// Initialize the game board
+		//* Initialize and create the game board
 		function createBoard() {
 			for (let idx = 0; idx < 9; idx++) {
 				const block = document.createElement('div');
@@ -188,12 +241,14 @@ class Game {
 
 			nextPlayer.textContent = `${currentPlayer.name}`;
 
-			console.log(message);
+			//onsole.log(message);
 		}
 
+		//* Call to create the game board
 		createBoard();
 	}
 
+	//* Initialize and start the the game
 	start(currentPlayer = this.player1) {
 		this.numOfPlayers = prompt(
 			`Number of Players: '1' (vs. Computer) or '2' (Head to Head)?`
@@ -220,6 +275,7 @@ class Game {
 	}
 }
 
+//* Player
 class Player {
 	constructor(name = 'Computer', symbol) {
 		this.name = name;
@@ -228,6 +284,6 @@ class Player {
 	}
 }
 
-// Create and start the game
+//* Create and start the game
 const game = new Game();
 game.start();
