@@ -1,6 +1,6 @@
 class Game {
 	constructor() {
-		let numOfPlayers = 2;
+		this.numOfPlayers = 0;
 	}
 
 	createGame() {
@@ -13,6 +13,7 @@ class Game {
 		const nextPlayer = document.querySelector('#next-player');
 		const resetButton = document.querySelector('#reset-btn');
 
+		// Winnig Combo of indexes to determine winner
 		const winningCombos = [
 			[0, 1, 2],
 			[3, 4, 5],
@@ -25,13 +26,31 @@ class Game {
 		];
 
 		// Instantiate the players
-		const player1 = new Player('De Sean');
-		const player2 = new Player('Computer');
+		const player1 = new Player(
+			prompt('Please enter a name for Player #1'),
+			'X'
+		);
+		alert(`Player #1 (${player1.name}) has been created.`);
+
+		let player2;
+
+		if (this.numOfPlayers === '2') {
+			player2 = new Player(
+				prompt('Please enter a name for Player #2'),
+				'O'
+			);
+			alert(`Player #2 (${player2.name}) has been created.`);
+		} else {
+			player2 = new Player('Mr. Computer', 'O');
+		}
+
+		alert(
+			`Game on! \nIt's ${player1.name} ( '${player1.symbol}' ) vs ${player2.name} ( '${player2.symbol}' )`
+		);
+
 		let currentPlayer = player1;
 		let currentClass = 'symb-x';
 		gameArea.classList.add(currentClass);
-		let player1won;
-		let player2won;
 
 		p1Name.textContent = `${player1.name}: `;
 		p1Score.textContent = `${player1.won}`;
@@ -57,7 +76,7 @@ class Game {
 
 			// Check for winner
 			if (checkIfWon(currentClass)) {
-				message.textContent = `Winner: ${currentPlayer.name}!`;
+				message.textContent = `${currentPlayer.name} Wins!`;
 
 				currentPlayer.won++;
 
@@ -102,7 +121,7 @@ class Game {
 			//
 			currentPlayer = player1;
 			gameArea.classList.add('symb-x');
-			message.textContent = `Next up: ${currentPlayer.name}`;
+			message.textContent = `${currentPlayer.name}, your turn.`;
 			createBoard();
 		};
 
@@ -135,7 +154,7 @@ class Game {
 			gameArea.classList.add(currentClass);
 
 			// Update Next Up message
-			message.textContent = `Next up: ${currentPlayer.name}`;
+			message.textContent = `${currentPlayer.name}, your turn.`;
 		}
 
 		// Initialize the game board
@@ -170,27 +189,45 @@ class Game {
 			nextPlayer.textContent = `${currentPlayer.name}`;
 
 			console.log(message);
-
-			game.start(currentPlayer);
 		}
 
 		createBoard();
 	}
 
-	start(currentPlayer) {
-		message.textContent = `Next up: ${currentPlayer.name}`;
+	start(currentPlayer = this.player1) {
+		this.numOfPlayers = prompt(
+			`Number of Players: '1' (vs. Computer) or '2' (Head to Head)?`
+		);
 
-		console.log(message);
+		switch (this.numOfPlayers) {
+			case '1':
+			case '2':
+				game.createGame();
+				break;
+			case '':
+				this.start();
+				break;
+			case null:
+				window.close();
+				break;
+			default:
+				alert(
+					`Please enter a '1'  or '2' for number of players. To quit, hit 'Cancel' or 'Esc'.`
+				);
+				this.start();
+				break;
+		}
 	}
 }
 
 class Player {
-	constructor(name = 'Computer') {
+	constructor(name = 'Computer', symbol) {
 		this.name = name;
+		this.symbol = symbol;
 		this.won = 0;
 	}
 }
 
 // Create and start the game
 const game = new Game();
-game.createGame();
+game.start();
