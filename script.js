@@ -13,6 +13,7 @@ class Game {
 		const p2Score = document.querySelector('#p2-score');
 		const nextPlayer = document.querySelector('#next-player');
 		const resetButton = document.querySelector('#reset-btn');
+		const restartButton = document.querySelector('#restart-btn');
 
 		// Winnig Combo of indexes to determine winner
 		const winningCombos = [
@@ -90,7 +91,10 @@ class Game {
 
 				// Disable further block clicking
 				const allBlocks = document.querySelectorAll('.square');
-				allBlocks.forEach(block => block.style.pointerEvents = "none")
+				allBlocks.forEach(block => {
+					block.removeEventListener('click', handleBlockClick);
+					block.style.cursor = 'not-allowed';
+				});
 
 				switch (currentPlayer) {
 					case player1:
@@ -103,6 +107,7 @@ class Game {
 						return;
 				}
 			} else {
+				console.log('Winner?: ', checkIfWon(currentClass));
 				// If no winner, switch players
 				switchPlayers(player1, player2);
 			}
@@ -130,11 +135,26 @@ class Game {
 				o.classList.remove('symb-o');
 			});
 
-			console.clear()
+			console.clear();
 			currentPlayer = player1;
 			gameArea.classList.add('symb-x');
 			message.textContent = `${currentPlayer.name}, your turn.`;
 			createBoard();
+		};
+
+		//* Handling the restart button's click event
+		const handleRestartBtn = e => {
+			e.preventDefault();
+
+			const allBlocks = document.querySelectorAll('.square');
+
+			allBlocks.forEach(block => {
+				gameArea.removeChild(block);
+			});
+
+			// Create a new Game
+			const game = new Game();
+			game.start();
 		};
 
 		//* The 'Player 2' logic for the computer, if it's a one-player game *//
@@ -152,6 +172,7 @@ class Game {
 					!block.classList.contains('symb-o')
 				) {
 					// Push the index ('id' value - 1) to remainingBlocks
+					setTimeout(() => block.classList.add('cmp-symb-0'), 1500);
 					remainingBlocks.push(block.id - 1);
 				}
 			});
@@ -165,10 +186,14 @@ class Game {
 			const idx = remainingBlocks[decision];
 			console.log('IDX: ', idx);
 
-			!allBlocks[idx].classList.contains('symb-x') &&
-			!allBlocks[idx].classList.contains('symb-o')
-				? handleBlockClick(allBlocks[idx])
-				: console.log('Duplicate block picked: ', allBlocks[idx]);
+			try {
+				!allBlocks[idx].classList.contains('symb-x') &&
+				!allBlocks[idx].classList.contains('symb-o')
+					? handleBlockClick(allBlocks[idx])
+					: console.log('Duplicate block picked: ', allBlocks[idx]);
+			} catch (err) {
+				message.textContent = "It's a draw!!!";
+			}
 		}
 
 		//* Check for winner *//
@@ -238,6 +263,8 @@ class Game {
 			}
 
 			resetButton.addEventListener('click', handleResetBtn);
+
+			restartButton.addEventListener('click', handleRestartBtn);
 
 			nextPlayer.textContent = `${currentPlayer.name}`;
 

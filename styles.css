@@ -68,14 +68,14 @@ p, span, h1, h2 {
     cursor: pointer;
 }
 
-/******* 'X' and 'O' symb-ols ********/
+/******* 'X' and 'O' symbols ********/
 .square.symb-x,
 .square.symb-o {
     cursor: not-allowed;
 }
 
 
-/***** 'X' symb-ol ******/
+/***** 'X' symbol ******/
 .square.symb-x::before,
 .square.symb-x::after,
 #game-area.symb-x .square:not(.symb-x):not(.symb-o):hover::before,
@@ -103,11 +103,31 @@ p, span, h1, h2 {
 /***************************/
 
 
-/***** 'O' symb-ol ******/
+/***** 'O' symbol ******/
 .square.symb-o::before,
 .square.symb-o::after,
 #game-area.symb-o .square:not(.symb-o):not(.symb-x):hover::before,
 #game-area.symb-o .square:not(.symb-o):not(.symb-x):hover::after {
+    content: '';
+    position: absolute;
+    width: calc(var(--symb-size));
+    height: var(--symb-size);
+    background-color: black;
+    border-radius: 50%;
+}
+
+.square.symb-o::after,
+#game-area.symb-o .square:not(.symb-o):not(.symb-x):hover::after {
+    scale: .7;
+    background-color: white;
+}
+/***********************/
+
+/***** Computer 'O' symbol highlight ******/
+.square.cmp-symb-o::before,
+.square.cmp-symb-o::after,
+#game-area.cmp-symb-o .square:not(.symb-o):not(.symb-x):hover::before,
+#game-area.com-symb-o .square:not(.symb-o):not(.symb-x):hover::after {
     content: '';
     position: absolute;
     width: calc(var(--symb-size));
@@ -141,7 +161,12 @@ p, span, h1, h2 {
     border-left: 1px solid;
 } 
 
-#reset-btn {
+#buttons {
+    display: flex;
+    flex-direction: column;
+}
+
+#reset-btn, #restart-btn {
     padding: .5em;
     cursor: pointer;
     margin-top: 2em;
